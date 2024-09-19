@@ -17,8 +17,11 @@ if os.path.exists('env.py'):
     import env
 
 CLOUDINARY_STORAGE = {
-    'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
+    'CLOUD_NAME': os.environ.get('CLOUD_NAME'),
+    'API_KEY': os.environ.get('API_KEY'),
+    'API_SECRET': os.environ.get('API_SECRET'),
 }
+
 MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
@@ -35,7 +38,9 @@ SECRET_KEY = 'django-insecure-r!&4*mtu@)$_@p3$d5t_motwzco$du^2_-21&=75m^09n!yzg6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '8000-12kharris-tinywheelsdrf-xvvctceqlsf.ws.codeinstitute-ide.net'
+]
 
 
 # Application definition
@@ -48,7 +53,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'cloudinary_storage',
     'django.contrib.staticfiles',
-    'cloudinary'
+    'cloudinary',
+
+    'profiles',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +142,9 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+#pip3 install django==3.2.4
+#pip install django-cloudinary-storage==0.3.0
+#pip install Pillow
