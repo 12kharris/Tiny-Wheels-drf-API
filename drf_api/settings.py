@@ -184,3 +184,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #pip3 install django==3.2.4
 #pip install django-cloudinary-storage==0.3.0
 #pip install Pillow
+#pip install djangorestframework==3.12.4
+#pip install django-filter==2.4.0
+#pip install dj-rest-auth==2.1.9
+#pip install django-allauth==0.50.0
+#pip install djangorestframework-simplejwt==5.3.1

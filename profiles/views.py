@@ -8,6 +8,19 @@ from .serializers import ProfileSerializer
 class ProfileList(generics.ListAPIView):
     queryset = Profile.objects.all().order_by('-Created_at')
     serializer_class = ProfileSerializer
+    filter_backends = [
+        filters.OrderingFilter,
+        filters.SearchFilter,
+    ]
+    search_fields = [
+        "User__username",
+        "Name",
+    ]
+    ordering_fields = [
+        "User__username",
+        "Name",
+        "Created_at"
+    ]
 
 #generics.RetrieveUpdateDestroyAPIView if want to implement deletion
 class ProfileDetail(generics.RetrieveUpdateAPIView):
