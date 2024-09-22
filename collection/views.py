@@ -22,14 +22,15 @@ class CollectionDetail(APIView):
         try:
             collection = Collections.objects.get(pk=pk)
             return collection
-        except collection.DoesNotExist:
+        except:
             raise Http404
 
     def get(self, request, pk):
         collection = self.get_object(pk)
-        #increment the collection's view count
-        collection.Views = collection.Views + 1
-        collection.save()
+        if collection is not None:
+            #increment the collection's view count
+            collection.Views = collection.Views + 1
+            collection.save()
 
         serializer = CollectionSerializer(collection, context={"request": request})
         return Response(serializer.data)
