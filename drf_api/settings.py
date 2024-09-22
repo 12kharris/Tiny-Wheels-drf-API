@@ -91,6 +91,7 @@ INSTALLED_APPS = [
 
     'profiles',
     "collection",
+    "brands",
 ]
 
 SITE_ID = 1
