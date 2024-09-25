@@ -4,13 +4,15 @@ from rest_framework import generics, filters
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
-from drf_api.permissions import IsOwnerOrReadOnly
-from .models import Collections
-from .serializers import CollectionSerializer
+from drf_api.permissions import IsOwnerOrReadOnly_CollectionItem
+from .models import Collections, CollectionItem
+from .serializers import CollectionSerializer, CollectionItemSerializer
 
 
 class CollecionsList(generics.ListAPIView):
-    queryset = Collections.objects.all()#.order_by('-Profile.Created_at')
+    queryset = Collections.objects.annotate(
+        items_count = Count("collectionitem", distinct=True)
+    )
     serializer_class = CollectionSerializer
 
 
@@ -32,5 +34,14 @@ class CollectionDetail(APIView):
             collection.Views = collection.Views + 1
             collection.save()
 
-        serializer = CollectionSerializer(collection, context={"request": request})
-        return Response(serializer.data)
+            collection_items = CollectionItem.objects.filter(Collection=pk)
+            serializer = CollectionItemSerializer(collection_items, context={"request": request}, many=True)
+            return Response(serializer.data)
+        else: 
+            return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+
+
+class CollectionItemDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsOwnerOrReadOnly_CollectionItem]
+    serializer_class = CollectionItemSerializer
+    queryset = CollectionItem.objects.all()
