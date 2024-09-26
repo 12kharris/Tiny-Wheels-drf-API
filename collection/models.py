@@ -20,11 +20,10 @@ class CollectionItem(models.Model):
         upload_to='images/', default='../default_post_e9srbd'
     )
 
-    constraints = [
-        models.UniqueConstraint(fields=["Collection", "Name", "Series"], name="UX_CollectionItem_Coll_Name_Series")
-    ]
-
     class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["Collection", "Name", "Series"], name="UX_CollectionItem_Coll_Name_Series")
+        ]
         ordering = [
             "Name","Series"
         ]
