@@ -9,7 +9,7 @@ class Profile(models.Model):
     Image = models.ImageField(
         upload_to='images/', default='../default_profile_cuucyn'
     )
-    Name = models.CharField(max_length=100, blank=True)
+    Name = models.CharField(max_length=100)
 
     class Meta:
         ordering = ['-Created_at']
