@@ -28,4 +28,5 @@ urlpatterns = [
     path("", include("collection.urls")),
     path("", include("brands.urls")),
     path("", include("posts.urls")),
+    path("", include("followers.urls")),
 ]

@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import CheckConstraint, Q, F
 from profiles.models import Profile
 
 
@@ -12,7 +13,9 @@ class Follower(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["FollowingProfile", "FollowedProfile"], name="UX_Follower_Follower_Followed")
+            models.UniqueConstraint(fields=["FollowingProfile", "FollowedProfile"], name="UX_Follower_Following_Followed"),
+            #https://medium.com/@ishakokutan/django-constraints-fa81d09cfa94
+            models.CheckConstraint(check=~Q(FollowingProfile = F("FollowedProfile")), name='CK_Follower_Following_Followed')
         ]
 
     def __str__(self):
