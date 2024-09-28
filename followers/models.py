@@ -5,10 +5,10 @@ from profiles.models import Profile
 
 class Follower(models.Model):
     FollowingProfile = models.ForeignKey(
-        Profile, related_name="owning_profile", on_delete=models.CASCADE
+        Profile, related_name="OwningProfile", on_delete=models.CASCADE
     )
     FollowedProfile = models.ForeignKey(
-        Profile, related_name="followed_profile", on_delete=models.CASCADE
+        Profile, related_name="FollowedProfile", on_delete=models.CASCADE
     )
 
     class Meta:
