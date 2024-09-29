@@ -22,6 +22,11 @@ class LikeDislikeSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         try:
+            user = self.context['request'].user
+            if validated_data["Post"].Profile.User == user:
+                raise serializers.ValidationError({
+                'detail': 'cannot like/dislike own post'
+            })
             return super().create(validated_data)
         except IntegrityError:
             raise serializers.ValidationError({
