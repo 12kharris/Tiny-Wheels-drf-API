@@ -16,7 +16,7 @@ class PostList(generics.ListCreateAPIView):
         DjangoFilterBackend,
     ]
     filterset_fields = [
-        'Profile__FollowedProfile__FollowingProfile', #a specififc followed profile
+        'Profile__FollowedProfile__FollowingProfile', #posts from profiles the specified user follows
     ]
 
     def perform_create(self, serializer):
