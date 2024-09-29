@@ -36,13 +36,31 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class LikedPostList(generics.ListAPIView):
-    serializer_class = PostSerializer
 
+    serializer_class = PostSerializer
+    
     def get_queryset(self):
         user = self.request.user
-        logged_in_profile = Profile.objects.filter(User=user)
-        liked_posts = LikeDislike.objects.select_related("likedislike").filter(Profile=logged_in_profile)
-        return liked_posts
+        posts = Post.objects.raw(
+            """
+            SELECT	pst.id
+                    ,pst."Created_at"
+                    ,pst."Updated_at"
+                    ,pst."Title"
+                    ,pst."Caption"
+                    ,pst."Image"
+                    ,pst."Profile_id"
+                    ,pst."Tag_id"
+            FROM 	posts_post pst
+            JOIN 	likes_likedislike lk ON pst.id = lk."Post_id"
+            JOIN 	profiles_profile prf ON lk."Profile_id" = prf.id
+            JOIN 	auth_user us ON prf."User_id" = us.id
+            WHERE	us.username = %s
+            """,
+            [user.username]
+        )
+        return posts
+
     
 
 class TagList(generics.ListAPIView):
