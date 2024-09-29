@@ -4,7 +4,7 @@ from profiles.models import Profile
 from .serializers import PostSerializer, TagSerializer
 from rest_framework import generics, permissions, filters
 from django_filters.rest_framework import DjangoFilterBackend
-from drf_api.permissions import IsOwnerOrReadOnly
+from drf_api.permissions import IsOwnerOrReadOnly_Post
 
 
 class PostList(generics.ListCreateAPIView):
@@ -22,6 +22,12 @@ class PostList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         logged_in_profile = Profile.objects.filter(User=self.request.user).first()
         serializer.save(Profile = logged_in_profile)
+
+
+class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsOwnerOrReadOnly_Post]
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
     
 
 class TagList(generics.ListAPIView):
