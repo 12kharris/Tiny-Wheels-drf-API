@@ -67,7 +67,7 @@ DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
     '8000-12kharris-tinywheelsdrf-xvvctceqlsf.ws.codeinstitute-ide.net',
-    "https://tiny-wheels-drf-api-4afe6c445f29.herokuapp.com/"
+    "https://tiny-wheels-drf-api*.herokuapp.com/"
 ]
 
 CORS_ALLOWED_ORIGINS = []
