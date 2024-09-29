@@ -1,14 +1,19 @@
 from rest_framework import serializers
 from posts.models import Post, Tag
+from profiles.models import Profile
+from likes.models import LikeDislike
 #from likes.models import Like
 
 
 class PostSerializer(serializers.ModelSerializer):
+    TagName = serializers.ReadOnlyField(source="Tag.TagName")
+    TagColour = serializers.ReadOnlyField(source="Tag.Colour")
     OwnerProfile = serializers.ReadOnlyField(source="Profile.Name")
     OwnerProfileID = serializers.ReadOnlyField(source="Profile.id")
     is_owner = serializers.SerializerMethodField()
     Profile_image = serializers.ReadOnlyField(source='Profile.image.url')
-    #like_id = serializers.SerializerMethodField()
+    LikeDislike_id = serializers.SerializerMethodField()
+    LikeType = serializers.SerializerMethodField()
     #likes_count = serializers.ReadOnlyField()
     #comments_count = serializers.ReadOnlyField()
 
@@ -29,13 +34,21 @@ class PostSerializer(serializers.ModelSerializer):
         request = self.context['request']
         return request.user == obj.Profile.User
 
-    def get_like_id(self, obj):
+    def get_LikeDislike_id(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
-            like = Like.objects.filter(
-                owner=user, post=obj
+            logged_in_profile = Profile.objects.filter(User=user).first()
+            like_dislike = LikeDislike.objects.filter(
+                Profile=logged_in_profile, Post=obj
             ).first()
-            return like.id if like else None
+            return like_dislike.id if like_dislike else None
+        return None
+
+    def get_LikeType(self, obj):
+        like_id = self.get_LikeDislike_id(obj)
+        if like_id is not None:
+            liked = LikeDislike.objects.filter(id=like_id).first().IsLike
+            return "like" if liked else "dislike"
         return None
 
     class Meta:
@@ -43,7 +56,9 @@ class PostSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'OwnerProfile', "OwnerProfileID", 'is_owner', 
             'Profile_image', 'Created_at', 'Updated_at',
-            'Title', 'Caption', 'Image', "Tag"
+            'Title', 'Caption', 'Image', "Tag",
+            "TagName", "TagColour",
+            "LikeDislike_id", "LikeType"
         ]
 
 
