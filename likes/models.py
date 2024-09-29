@@ -4,8 +4,8 @@ from profiles.models import Profile
 
 
 class LikeDislike(models.Model):
-    Post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    Profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    Post = models.ForeignKey(Post, related_name="likedislike", on_delete=models.CASCADE)
+    Profile = models.ForeignKey(Profile, related_name="LikingProfile", on_delete=models.CASCADE)
     IsLike = models.BooleanField()
     Created_at = models.DateTimeField(auto_now_add=True)
 
