@@ -4,6 +4,7 @@ from .serializers import FollowerSerializer
 from rest_framework import generics, permissions, filters
 from drf_api.permissions import IsOwnerOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_api.permissions import IsOwnerOrReadOnly_FollowingProfile
 
 
 class FollowerList(generics.ListCreateAPIView):
@@ -21,3 +22,9 @@ class FollowerList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         logged_in_profile = Profile.objects.filter(User=self.request.user).first()
         serializer.save(FollowingProfile = logged_in_profile)
+
+
+class FollowerDetail(generics.RetrieveDestroyAPIView):
+    queryset = Follower.objects.all()
+    permission_classes = [IsOwnerOrReadOnly_FollowingProfile]
+    serializer_class = FollowerSerializer

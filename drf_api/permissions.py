@@ -20,3 +20,10 @@ class IsOwnerOrReadOnly_Profile(permissions.BasePermission):
             return True
         # only allow Owners of objects to use modifying HTTP methods
         return obj.Profile.User == request.user
+
+class IsOwnerOrReadOnly_FollowingProfile(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        # only allow Owners of objects to use modifying HTTP methods
+        return obj.FollowingProfile.User == request.user
