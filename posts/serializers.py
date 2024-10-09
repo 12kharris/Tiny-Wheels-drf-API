@@ -11,6 +11,7 @@ class PostSerializer(serializers.ModelSerializer):
     OwnerProfile = serializers.ReadOnlyField(source="Profile.Name")
     OwnerProfileID = serializers.ReadOnlyField(source="Profile.id")
     OwnerProfileImage = serializers.ReadOnlyField(source="Profile.ProfileImage.url")
+    OwnerUsername = serializers.ReadOnlyField(source="Profile.User.username")
     is_owner = serializers.SerializerMethodField()
     Profile_image = serializers.ReadOnlyField(source='Profile.image.url')
     LikeDislike_id = serializers.SerializerMethodField()
@@ -56,7 +57,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = [
-            'id', 'OwnerProfile', "OwnerProfileID", "OwnerProfileImage", 'is_owner', 
+            'id', 'OwnerProfile', "OwnerProfileID", "OwnerProfileImage", "OwnerUsername", 'is_owner', 
             'Profile_image', 'Created_at', 'Updated_at',
             'Title', 'Caption', 'Image', "Tag",
             "TagName", "TagColour",
