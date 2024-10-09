@@ -14,7 +14,8 @@ class FollowerList(generics.ListCreateAPIView):
         DjangoFilterBackend,
     ]
     filterset_fields = [
-        "FollowingProfile__User"
+        "FollowingProfile__User",
+        "FollowedProfile__id"
     ]
 
     def perform_create(self, serializer):
