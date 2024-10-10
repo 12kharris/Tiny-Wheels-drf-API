@@ -63,6 +63,12 @@ class CollectionItemList(generics.ListCreateAPIView):
         else:
             return CollectionItem.objects.none()
 
+    def perform_create(self, serializer):
+        logged_in_profile = Profile.objects.filter(User=self.request.user).first()
+        collection = Collections.objects.filter(Profile=logged_in_profile).first()
+        serializer.save(Collection=collection)
+
+
 class CollectionItemDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsOwnerOrReadOnly_CollectionItem]
     serializer_class = CollectionItemSerializer
