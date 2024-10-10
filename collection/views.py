@@ -37,8 +37,10 @@ class CollectionDetail(APIView):
         collection = self.get_object(pk)
         if collection is not None:
             #increment the collection's view count
-            collection.Views = collection.Views + 1
-            collection.save()
+            if (request.user.username != collection.Profile.User.username):
+                print("VIEWS INCREMENTED")
+                collection.Views = collection.Views + 1
+                collection.save()
 
             collection_items = CollectionItem.objects.filter(Collection=pk)
             serializer = CollectionItemSerializer(collection_items, context={"request": request}, many=True)
