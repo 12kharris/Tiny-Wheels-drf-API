@@ -23,6 +23,11 @@ class PostList(generics.ListCreateAPIView):
     filterset_fields = [
         "Profile__User__username",
         'Profile__FollowedProfile__FollowingProfile', #posts from profiles the specified user follows
+        "Tag",
+    ]
+    search_fields = [
+        "Title",
+        "Caption"
     ]
 
     def perform_create(self, serializer):
