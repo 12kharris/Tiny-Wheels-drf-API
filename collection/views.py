@@ -14,6 +14,12 @@ class CollecionsList(generics.ListAPIView):
         items_count = Count("collectionitem", distinct=True)
     )
     serializer_class = CollectionSerializer
+    filter_backends = [
+        DjangoFilterBackend,
+    ]
+    filterset_fields = [
+        "id"
+    ]
 
 
 class CollectionDetail(APIView):
