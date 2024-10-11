@@ -12,7 +12,8 @@ class PostList(generics.ListCreateAPIView):
     queryset = Post.objects.annotate(
         #https://stackoverflow.com/questions/11418522/django-how-to-annotate-queryset-with-count-of-filtered-foreignkey-field
         Likes_count = Count("likedislike", filter=Q(likedislike__IsLike = True)),
-        Dislikes_count = Count("likedislike", filter=Q(likedislike__IsLike = False))
+        Dislikes_count = Count("likedislike", filter=Q(likedislike__IsLike = False)),
+        Comments_count = Count("comment")
     ).order_by("-Created_at")
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]

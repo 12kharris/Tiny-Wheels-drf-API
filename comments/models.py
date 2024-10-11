@@ -4,7 +4,7 @@ from profiles.models import Profile
 
 
 class Comment(models.Model):
-    Post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    Post = models.ForeignKey(Post, related_name="comment",on_delete=models.CASCADE)
     Profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     Content = models.TextField()
     Created_at = models.DateTimeField(auto_now_add=True)
