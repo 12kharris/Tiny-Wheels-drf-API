@@ -19,6 +19,8 @@ class CollectionSerializer(serializers.ModelSerializer):
 class CollectionItemSerializer(serializers.ModelSerializer):
     Owner = serializers.ReadOnlyField(source="Collection.Profile.User.username")
     is_owner = serializers.SerializerMethodField()
+    SeriesName = serializers.ReadOnlyField(source="Series.SeriesName")
+    BrandName = serializers.ReadOnlyField(source="Series.Brand.BrandName")
 
     def get_is_owner(self, obj):
         request = self.context['request']
@@ -27,5 +29,5 @@ class CollectionItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CollectionItem
         fields = [
-            "id", "Name", "Series", "Quantity", "Image", "Owner", "is_owner"
+            "id", "Name", "Series", "SeriesName", "BrandName", "Quantity", "Image", "Owner", "is_owner"
         ]
