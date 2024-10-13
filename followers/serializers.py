@@ -4,6 +4,7 @@ from .models import Follower
 
 
 class FollowerSerializer(serializers.ModelSerializer):
+    FollowingProfileID = serializers.ReadOnlyField(source="FollowingProfile.id")
     FollowingUser = serializers.ReadOnlyField(source="FollowingProfile.User.username")
     FollowingProfileName = serializers.ReadOnlyField(source="FollowingProfile.Name")
     FollowingProfileImage = serializers.ReadOnlyField(source="FollowingProfile.ProfileImage.url")
@@ -25,7 +26,7 @@ class FollowerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follower
         fields = [
-            "id", "FollowingUser", "FollowingProfileName", "FollowingProfileImage",
+            "id", "FollowingProfileID", "FollowingUser", "FollowingProfileName", "FollowingProfileImage",
             "FollowedProfile", "FollowedProfileName", "FollowedUser", "FollowedProfileImage",
             "is_owner"
         ]
