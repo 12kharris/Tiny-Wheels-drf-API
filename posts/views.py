@@ -18,6 +18,7 @@ class PostList(generics.ListCreateAPIView):
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [
+        filters.OrderingFilter,
         filters.SearchFilter,
         DjangoFilterBackend,
     ]
@@ -29,6 +30,9 @@ class PostList(generics.ListCreateAPIView):
     search_fields = [
         "Title",
         "Caption"
+    ]
+    ordering_fields = [
+        "Likes_count"
     ]
 
     def perform_create(self, serializer):
