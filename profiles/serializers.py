@@ -4,6 +4,7 @@ from followers.models import Follower
 from collection.models import Collections
 
 class ProfileSerializer(serializers.ModelSerializer):
+    OwnerUser = serializers.ReadOnlyField(source="User.pk")
     OwnerUsername = serializers.ReadOnlyField(source="User.username")
     is_owner = serializers.SerializerMethodField()
     is_followed = serializers.SerializerMethodField()
@@ -27,5 +28,5 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = [
-            'id', 'OwnerUsername', 'Created_at', 'ProfileImage', 'Name', "is_owner", "is_followed", "collection_id"
+            'id', "OwnerUser", 'OwnerUsername', 'Created_at', 'ProfileImage', 'Name', "is_owner", "is_followed", "collection_id"
         ]
