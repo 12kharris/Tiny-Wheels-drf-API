@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Collections, CollectionItem
 
+
 class CollectionSerializer(serializers.ModelSerializer):
     Owner = serializers.ReadOnlyField(source="Profile.User.username")
     is_owner = serializers.SerializerMethodField()
@@ -16,8 +17,10 @@ class CollectionSerializer(serializers.ModelSerializer):
             'id', 'Owner', 'Views', "is_owner", "items_count"
         ]
 
+
 class CollectionItemSerializer(serializers.ModelSerializer):
-    Owner = serializers.ReadOnlyField(source="Collection.Profile.User.username")
+    Owner = serializers.ReadOnlyField(
+        source="Collection.Profile.User.username")
     is_owner = serializers.SerializerMethodField()
     SeriesName = serializers.ReadOnlyField(source="Series.SeriesName")
     BrandName = serializers.ReadOnlyField(source="Series.Brand.BrandName")
@@ -29,5 +32,6 @@ class CollectionItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CollectionItem
         fields = [
-            "id", "Name", "Series", "SeriesName", "BrandName", "Quantity", "Image", "Owner", "is_owner"
+            "id", "Name", "Series", "SeriesName", "BrandName", "Quantity",
+            "Image", "Owner", "is_owner"
         ]

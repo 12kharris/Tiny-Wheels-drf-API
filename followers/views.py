@@ -21,7 +21,7 @@ class FollowerList(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         logged_in_profile = Profile.objects.filter(User=self.request.user).first()
-        serializer.save(FollowingProfile = logged_in_profile)
+        serializer.save(FollowingProfile=logged_in_profile)
 
 
 class FollowerDetail(generics.RetrieveDestroyAPIView):

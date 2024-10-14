@@ -6,6 +6,7 @@ from drf_api.permissions import IsOwnerOrReadOnly
 from .models import Profile
 from .serializers import ProfileSerializer
 
+
 class ProfileList(generics.ListAPIView):
     queryset = Profile.objects.all().order_by("User")
     serializer_class = ProfileSerializer
@@ -24,7 +25,8 @@ class ProfileList(generics.ListAPIView):
         "Created_at"
     ]
 
-#generics.RetrieveUpdateDestroyAPIView if want to implement deletion
+
+# generics.RetrieveUpdateDestroyAPIView if want to implement deletion
 class ProfileDetail(generics.RetrieveUpdateAPIView):
     """
     Retrieve or update a profile if you're the owner.

@@ -19,12 +19,12 @@ class Post(models.Model):
     Image = models.ImageField(
         upload_to='images/', default='../default_post_e9srbd'
     )
-    Tag = models.ForeignKey(Tag, on_delete=models.SET_NULL, blank=True, null=True)
+    Tag = models.ForeignKey(Tag, on_delete=models.SET_NULL, blank=True,
+                            null=True)
 
     class Meta:
         ordering = ["-Created_at"]
 
     def __str__(self):
-        return f"{self.Title} by {self.Profile.User.username} at {self.Updated_at}"
-
-
+        return (f"{self.Title} by {self.Profile.User.username} " +
+                f"at {self.Updated_at}")

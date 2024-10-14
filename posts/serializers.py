@@ -2,7 +2,6 @@ from rest_framework import serializers
 from posts.models import Post, Tag
 from profiles.models import Profile
 from likes.models import LikeDislike
-#from likes.models import Like
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -10,7 +9,8 @@ class PostSerializer(serializers.ModelSerializer):
     TagColour = serializers.ReadOnlyField(source="Tag.Colour")
     OwnerProfile = serializers.ReadOnlyField(source="Profile.Name")
     OwnerProfileID = serializers.ReadOnlyField(source="Profile.id")
-    OwnerProfileImage = serializers.ReadOnlyField(source="Profile.ProfileImage.url")
+    OwnerProfileImage = serializers.ReadOnlyField(
+        source="Profile.ProfileImage.url")
     OwnerUsername = serializers.ReadOnlyField(source="Profile.User.username")
     is_owner = serializers.SerializerMethodField()
     Profile_image = serializers.ReadOnlyField(source='Profile.image.url')
@@ -57,11 +57,13 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = [
-            'id', 'OwnerProfile', "OwnerProfileID", "OwnerProfileImage", "OwnerUsername", 'is_owner', 
+            'id', 'OwnerProfile', "OwnerProfileID", "OwnerProfileImage",
+            "OwnerUsername", 'is_owner',
             'Profile_image', 'Created_at', 'Updated_at',
             'Title', 'Caption', 'Image', "Tag",
             "TagName", "TagColour",
-            "LikeDislike_id", "LikeType", "Likes_count", "Dislikes_count", "Comments_count"
+            "LikeDislike_id", "LikeType", "Likes_count", "Dislikes_count",
+            "Comments_count"
         ]
 
 

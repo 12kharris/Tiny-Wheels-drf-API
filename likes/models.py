@@ -4,8 +4,10 @@ from profiles.models import Profile
 
 
 class LikeDislike(models.Model):
-    Post = models.ForeignKey(Post, related_name="likedislike", on_delete=models.CASCADE)
-    Profile = models.ForeignKey(Profile, related_name="LikingProfile", on_delete=models.CASCADE)
+    Post = models.ForeignKey(Post, related_name="likedislike",
+                             on_delete=models.CASCADE)
+    Profile = models.ForeignKey(Profile, related_name="LikingProfile",
+                                on_delete=models.CASCADE)
     IsLike = models.BooleanField()
     Created_at = models.DateTimeField(auto_now_add=True)
 
@@ -15,5 +17,6 @@ class LikeDislike(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["Post", "Profile"], name="UX_LikeDislike_Post_Profile")
+            models.UniqueConstraint(fields=["Post", "Profile"],
+                                    name="UX_LikeDislike_Post_Profile")
         ]

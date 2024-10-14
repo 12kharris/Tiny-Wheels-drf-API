@@ -13,10 +13,15 @@ class Follower(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["FollowingProfile", "FollowedProfile"], name="UX_Follower_Following_Followed"),
-            #https://medium.com/@ishakokutan/django-constraints-fa81d09cfa94
-            models.CheckConstraint(check=~Q(FollowingProfile = F("FollowedProfile")), name='CK_Follower_Following_Followed')
+            models.UniqueConstraint(fields=["FollowingProfile",
+                                            "FollowedProfile"],
+                                    name="UX_Follower_Following_Followed"),
+            # https://medium.com/@ishakokutan/django-constraints-fa81d09cfa94
+            models.CheckConstraint(check=~Q(
+                FollowingProfile=F("FollowedProfile")),
+                name='CK_Follower_Following_Followed')
         ]
 
     def __str__(self):
-        return f"{self.FollowingProfile.User.username} following {self.FollowedProfile.User.username}"
+        return (f"{self.FollowingProfile.User.username} " +
+                f"following {self.FollowedProfile.User.username}")

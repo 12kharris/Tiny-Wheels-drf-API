@@ -12,7 +12,7 @@ from profiles.models import Profile
 
 class CollecionsList(generics.ListAPIView):
     queryset = Collections.objects.annotate(
-        items_count = Count("collectionitem", distinct=True)
+        items_count=Count("collectionitem", distinct=True)
     )
     serializer_class = CollectionSerializer
     filter_backends = [
@@ -37,22 +37,25 @@ class CollectionDetail(APIView):
     def get(self, request, pk):
         collection = self.get_object(pk)
         if collection is not None:
-            #increment the collection's view count
+            # increment the collection's view count
             if (request.user.username != collection.Profile.User.username):
                 collection.Views = collection.Views + 1
                 collection.save()
 
             collection_items = CollectionItem.objects.filter(Collection=pk)
-            serializer = CollectionItemSerializer(collection_items, context={"request": request}, many=True)
+            serializer = CollectionItemSerializer(collection_items,
+                                                  context={"request": request},
+                                                  many=True)
             return Response(serializer.data)
-        else: 
-            return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_404_NOT_FOUND)
 
 
 class CollectionItemList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = CollectionItemSerializer
-    
+
     def get_queryset(self):
         user = self.request.user
         if user.pk is not None:

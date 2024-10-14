@@ -3,6 +3,7 @@ from django.db.models.signals import post_save
 from profiles.models import Profile
 from brands.models import Series
 
+
 class Collections(models.Model):
     Profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
     Views = models.IntegerField(default=0)
@@ -22,10 +23,11 @@ class CollectionItem(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["Collection", "Name", "Series"], name="UX_CollectionItem_Coll_Name_Series")
+            models.UniqueConstraint(fields=["Collection", "Name", "Series"],
+                                    name="UX_CollectionItem_Coll_Name_Series")
         ]
         ordering = [
-            "Name","Series"
+            "Name", "Series"
         ]
 
     def __str__(self):
@@ -35,5 +37,6 @@ class CollectionItem(models.Model):
 def create_collection(sender, instance, created, **kwargs):
     if created:
         Collections.objects.create(Profile=instance)
+
 
 post_save.connect(create_collection, sender=Profile)

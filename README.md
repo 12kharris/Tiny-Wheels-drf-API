@@ -33,7 +33,7 @@ All code which has been adapted from online sources has been commented with a li
 Before development, planning of the look of the application and the structure of its database was done to streamline development.
 Below is an entity relationship diagram for how the database structure would look.
 
-ERD HERE
+![ERD](https://res.cloudinary.com/da2ant1dk/image/upload/v1728850583/media/images/o4g7azdl4cehiinule6l.png)
 
 ### User Stories
 Below is a link to the GitHub project board with all of the development tasks for the API section of this project. Each task is linked to a relevant sprint. These tasks were orignally created on Azure DevOps but moved over to GitHub projects midway through development.
@@ -44,7 +44,7 @@ https://dev.azure.com/kurtharris1541/Tiny%20Wheels/_workitems/recentlyupdated
 
 
 ## Models
-Below are the django models used in tthis project and their function
+Below are the django models used in this project and their function
 
 ### Profile
 The Profile model houses all information for a user beyond what is stored in the User model by django allauth. It is automatically created when a new user is created. 
@@ -142,37 +142,37 @@ All non-safe methods such as POST, PUT and DELETE require a user to be logged in
 The following tests were done maually to ensure the backend of the application is functioning as expected. Both the local and deployed projects were tested.
 
 ### Attempt to edit a profile when not logged in
-A user should not be able to edit a profile when not logged in. When logged out, the PUT form disappears for the profile detail view and the API does not accept a PUT request.
+A user should not be able to edit a profile when not logged in. When logged out, the PUT form disappears for the profile detail view and the API does not accept a PUT request. This test is a PASS.
 
 ### Attempt to edit a profile the user doesn't own
-A user should not be able to edit another user's profile. WHen logged in but viewing another's profile,  the PUT form disappears for the profile detail view and the API does not accept a PUT request.
+A user should not be able to edit another user's profile. When logged in but viewing another's profile,  the PUT form disappears for the profile detail view and the API does not accept a PUT request. This test is a PASS.
 
 ### Attempt to create a post when not logged in
-Only logged in user should be able to create a post. When logged out, the POST form is not available and the API does not accept a POST request.
+Only logged in user should be able to create a post. When logged out, the POST form is not available and the API does not accept a POST request. This test is a PASS.
 
 ### Attempt to edit a post when not logged in
-Logged out users should not be able to edit a post. When logged out, the PUT form disappears and the API does not accept the PUT request.
+Logged out users should not be able to edit a post. When logged out, the PUT form disappears and the API does not accept the PUT request. This test is a PASS.
 
 ### Attempt to edit a post you don't own
-Users should not be able to edit a post they don't own. In this case, the PUT form disappears and the API does not accept the PUT request.
+Users should not be able to edit a post they don't own. In this case, the PUT form disappears and the API does not accept the PUT request. This test is a PASS.
 
 ### Attempt to like a post when logged out
-Only logged in users should be able to like posts. When logged out, the POST form disappears and the API does not accept the POST request.
+Only logged in users should be able to like posts. When logged out, the POST form disappears and the API does not accept the POST request. This test is a PASS.
 
 ### Attempt to delete a like you don't own
-Users should not be able to delete a like they don't own. In this case, the DELETE option disappears and the API does not accept the DELETE request.
+Users should not be able to delete a like they don't own. In this case, the DELETE option disappears and the API does not accept the DELETE request. This test is a PASS.
 
 ### Attempt to follow a user when logged out
-Logged out users should not be able to follow a profile. In this case, the POST option disappears and the API does not accept the POST request.
+Logged out users should not be able to follow a profile. In this case, the POST option disappears and the API does not accept the POST request. This test is a PASS.
 
 ### Attempt to unfollow a user when you don't own the follow object
-Users should not be able to unfollow on another user's behalf. In this case, the DELETE option has disappeared and the API no longer accepts the DELETE request
+Users should not be able to unfollow on another user's behalf. In this case, the DELETE option has disappeared and the API no longer accepts the DELETE request. This test is a PASS.
 
 ### Attempt to edit a collection item when logged out
-A logged out user should not be able to edit a collection item. In this case, the PUT and DELETE options are absent and the API does not accept these requests.
+A logged out user should not be able to edit a collection item. In this case, the PUT and DELETE options are absent and the API does not accept these requests. This test is a PASS.
 
 ### Attempt to delete a collection item you don't own
-Only an owning user should be able to delete one of their collection items. In the case of a different user attempting this, the DELETE option is no longer available and the API does not accept the delete request.
+Only an owning user should be able to delete one of their collection items. In the case of a different user attempting this, the DELETE option is no longer available and the API does not accept the delete request. This test is a PASS.
 
 
 ## Deployment
@@ -190,18 +190,19 @@ web: gunicorn drf_api.wsgi
 
 
 ## Code Validation
-
+There are 2 issues raised in the python linter. One was for using a bare 'except' which is not best practice but not an issue. The other is for some lines being too long. I cannot reformat the code to make this line shorter unless I create a new variable to assign the result of the .first() function but at the stage of validation, this was not feasible as it would require more testing on the application.
+![python val err](https://res.cloudinary.com/da2ant1dk/image/upload/v1728941745/python_validation_error_wkaehk.png)
 
 ## Known Issues
 In the deployed site, there was an instance of a post where liking it or disliking it would increase the Likes/Dislikes_count by 2. I was not able to replicate this locally. The post was deleted and the issue has not appeared in any other posts.
 
 ## Problems encountered
-- ORM can be too restrictive with joins using filter and select_related so I had to use raw SQL to overcome this for liked posts. For some reason, using lk."IsLike" = 'true' stopped the queries from returning results. The query worked in pgadmin so not sure why this was. Therefore I had to move the filtering for liked/disliked into the react side of app.
+- Django's ORM can be too restrictive with joins using filter and select_related so I had to use raw SQL to overcome this for liked posts. For some reason, using lk."IsLike" = 'true' stopped the queries from returning results. The query worked in pgadmin so not sure why this was. Therefore I had to move the filtering for liked/disliked into the react side of app.
 
 
 ## Future Features
 Below are features which I would like to add to the application in the future.
 - Adding more brands would be a good start for expanding the use of the application.
 - Obtaining a list of all possible models for each brand (possibly from their Wikis?) and only being able to select from these when adding a collection item would be a better user experience and would act as a restriction on the type of items which could be added to a collection as currently, you could upload anything to your collection if you desire.
-- Adding a view for the most followed accounts. I did implement a followers and following count to each profile but using the OwningProfile and FollowedProfile as the objects to count did not work as the following count was always the same as the following count. As a result this was removed but it would be more efficient to add this back
+- Adding a view for the most followed accounts. I did implement a followers and following count to each profile but using the OwningProfile and FollowedProfile as the objects to count did not work as the followers count was always the same as the following count. As a result this was removed but it would be more efficient to add this back
 - Pagination was removed due to time constraints resulting in infinite scrolling being deemed low priority. It is possible for 100s of posts to be made so over time the API would take longer to return results so it would be good to add pagination back in

@@ -15,7 +15,7 @@ class CommentsList(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         logged_in_profile = Profile.objects.filter(User=self.request.user).first()
-        serializer.save(Profile = logged_in_profile)
+        serializer.save(Profile=logged_in_profile)
 
 
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):

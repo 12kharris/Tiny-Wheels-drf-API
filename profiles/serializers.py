@@ -3,6 +3,7 @@ from .models import Profile
 from followers.models import Follower
 from collection.models import Collections
 
+
 class ProfileSerializer(serializers.ModelSerializer):
     OwnerUser = serializers.ReadOnlyField(source="User.pk")
     OwnerUsername = serializers.ReadOnlyField(source="User.username")
@@ -18,8 +19,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         if user.is_authenticated:
             logged_in_profile = Profile.objects.filter(User=user).first()
-            followed = Follower.objects.filter(FollowingProfile=logged_in_profile).filter(FollowedProfile=obj)
-            return True if followed.count()==1 else False
+            followed = Follower.objects.filter(
+                FollowingProfile=logged_in_profile).filter(FollowedProfile=obj)
+            return True if followed.count() == 1 else False
 
     def get_collection_id(self, obj):
         collection = Collections.objects.filter(Profile=obj).first()
@@ -28,5 +30,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = [
-            'id', "OwnerUser", 'OwnerUsername', 'Created_at', 'ProfileImage', 'Name', "is_owner", "is_followed", "collection_id"
+            'id', "OwnerUser", 'OwnerUsername', 'Created_at', 'ProfileImage',
+            'Name', "is_owner", "is_followed", "collection_id"
         ]
