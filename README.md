@@ -198,6 +198,7 @@ In the deployed site, there was an instance of a post where liking it or disliki
 
 ## Problems encountered
 - Django's ORM can be too restrictive with joins using filter and select_related so I had to use raw SQL to overcome this for liked posts. For some reason, using lk."IsLike" = 'true' stopped the queries from returning results. The query worked in pgadmin so not sure why this was. Therefore I had to move the filtering for liked/disliked into the react side of app.
+- Using the Count function when annotating a queryset was sometimes doubling the correct count. This was happening with the comments_count on the Post model. To get around this quickly, a count of the length of the array of results returned when filtering for the comments for the post was used which resolved the issue.
 
 
 ## Future Features

@@ -1,4 +1,5 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_api.permissions import IsOwnerOrReadOnly_Profile
 from likes.models import LikeDislike
 from likes.serializers import LikeDislikeSerializer
@@ -9,6 +10,14 @@ class LikeDislikeList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = LikeDislike.objects.all()
     serializer_class = LikeDislikeSerializer
+
+    filter_backends = [
+        DjangoFilterBackend,
+    ]
+    filterset_fields = [
+        "Post",
+        "IsLike"
+    ]
 
     def perform_create(self, serializer):
         logged_in_profile = Profile.objects.filter(User=self.request.user).first()

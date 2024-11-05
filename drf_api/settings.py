@@ -66,7 +66,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
-    '3000-12kharris-tinywheels-h1rgzvzlreb.ws.codeinstitute-ide.net',
+    '8000-12kharris-tinywheelsdrf-twkxmow7n3o.ws.codeinstitute-ide.net',
     "tiny-wheels-drf-api-4afe6c445f29.herokuapp.com",
 ]
 
