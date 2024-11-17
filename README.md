@@ -176,7 +176,7 @@ Only an owning user should be able to delete one of their collection items. In t
 
 
 ## Deployment
-Below are the steps to deploy this project:
+This project was deployed using the herkou-22 stack. Below are the steps to deploy this project:
 - Sign up to Cloudinary to use their image hosting service.
 - Once you have created your account, navigate to the "Programmable Media" tab using the menu on the left of the screen.
 - On the "Dashboard" tab, click on the "Go to API Keys" button.
@@ -197,6 +197,7 @@ web: gunicorn drf_api.wsgi
 - Add the DISABLE_COLLECTSTATIC config var with a value of 1 as there are no static files for our API.
 - Add the CLIENT_ORIGIN config var and as its value, paste the URL of the deployed front-end website which will call this API (ensure to remove the final "/" at the end of the URL).
 - Add the CLIENT_ORIGIN_DEV config var and for this value, add the URL of the development site which will call this API (without the final "/" in the URL).
+- Add the SECRET_KEY config var and add a value for the secret key. You can use the following generator to create a secure secret key: https://djecrety.ir/
 - Git commit and push
 - On the deploy tab, click on "Deploy branch" at the bottom of the page. Once successful, your page will look like the image below.
 ![Deployed](https://res.cloudinary.com/da2ant1dk/image/upload/v1731870268/Heroku_deployed_ahnjfm.png)
