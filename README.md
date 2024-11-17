@@ -176,16 +176,34 @@ Only an owning user should be able to delete one of their collection items. In t
 
 
 ## Deployment
-Below are the steps to deploy this project
-- Create a Procfile for Heroku and add the following commands:
+Below are the steps to deploy this project:
+- Sign up to Cloudinary to use their image hosting service.
+- Once you have created your account, navigate to the "Programmable Media" tab using the menu on the left of the screen.
+- On the "Dashboard" tab, click on the "Go to API Keys" button.
+- Generate a new API key using the "Generate API Key" button on the "API Keys" section.
+![APIKeys](https://res.cloudinary.com/da2ant1dk/image/upload/v1731870268/Generate_API_keys_e9cwtd.png)
+- Reveal the newly generate API key, we will need the key and API secret for deploying to Heroku
+- Create a Procfile at the top level of the project for Heroku and add the following commands:
 release: python manage.py makemigrations && python manage.py migrate
 web: gunicorn drf_api.wsgi
-- Create a Heroku project and add the following config vars for Cloudinary: API_KEY, API_SECRET, CLOUD_NAME
-- Add the DATABASE_URL config var
-- Add the DISABLE_COLLECTSTATIC = 1 config var
-- Add the allowed CLIENT_ORIGIN and CLIENT_ORIGIN_DEV config vars for CORS
+- Create a new Heroku project.
+- On the "Deploy" section, scroll down to the section to link a repository. Link your GitHub repo of this project. If successful, it will look like the below:
+![RepoLink](https://res.cloudinary.com/da2ant1dk/image/upload/v1731870268/Heroku_repo_connect_dfltmw.png)
+- On the "Settings" tab on Herkoku, click on "reveal config vars" and add the following config vars for Cloudinary: API_KEY, API_SECRET, CLOUD_NAME. 
+- Paste the value for the API key in the newly generate cloudinary API key as the value for the API_KEY config var.
+- Reveal the API secret in cloudinary for the new API key and paste as the value for the API_SECRET config var.
+- Copy the value for the Cloud name which is present at the top of the API key page on cloudinary. Paste this value into the value for the CLOUD_NAME config var.
+- Add the DATABASE_URL config var of your postgres production database
+- Add the DISABLE_COLLECTSTATIC config var with a value of 1 as there are no static files for our API.
+- Add the CLIENT_ORIGIN config var and as its value, paste the URL of the deployed front-end website which will call this API (ensure to remove the final "/" at the end of the URL).
+- Add the CLIENT_ORIGIN_DEV config var and for this value, add the URL of the development site which will call this API (without the final "/" in the URL).
 - Git commit and push
-- Deploy the branch
+- On the deploy tab, click on "Deploy branch" at the bottom of the page. Once successful, your page will look like the image below.
+![Deployed](https://res.cloudinary.com/da2ant1dk/image/upload/v1731870268/Heroku_deployed_ahnjfm.png)
+- You can now test the deployed API by clicking on the "View" button at the bottom of the page.
+- It is likely that there will be an error due to the newly deployed site not being listed as an entry in the ALLOWED_HOSTS variable in the settings.py file. If so, add the URL of the deployed API as an entry in the ALLOWED_HOSTS array and git add, commit and push. Then redeploy the site on Heroku again and you should see the welcome message when viewing the deployed app.
+![welcome](https://res.cloudinary.com/da2ant1dk/image/upload/v1731870268/welcom_message_dmfunb.png)
+- The API is now deployed and ready to be used.
  
 
 
